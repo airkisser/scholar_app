@@ -1,4 +1,4 @@
-//
+﻿//
 // Created by junluo on 2019/5/23.
 //
 
@@ -77,7 +77,7 @@ void NetworkUtils::beforeRequest(HttpRequest* request, bool auth)
 	request->setHeaders(headers);
 }
 
-void onRequestCompleted(HttpClient* client, HttpResponse* response)
+void NetworkUtils::onRequestCompleted(HttpClient* client, HttpResponse* response)
 {
 	if (!response) 
 	{

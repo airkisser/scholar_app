@@ -1,4 +1,4 @@
-//
+ï»¿//
 // Created by junluo on 2019/5/23.
 //
 
@@ -19,16 +19,16 @@ class NetworkUtils
 	const char* APPLICATION_JSON_UTF8 = "Content-Type: application/json; charset=utf-8";
 public:
 	/**
-	 * »ñÈ¡µ¥Àı
+	 * è·å–å•ä¾‹
 	 */
 	static NetworkUtils* getInstance();
 	/*
-	 * Ïú»Ùµ¥Àı
+	 * é”€æ¯å•ä¾‹
 	 */
 	void destroyInstance();
 
 	/*
-	 * Ö´ĞĞÇëÇó
+	 * æ‰§è¡Œè¯·æ±‚
 	 */
 	void doRequest(const RequestParams &params);
 
@@ -47,11 +47,11 @@ private:
 
 struct RequestParams
 {
-	HttpRequest::Type           requestType = HttpRequest::Type::GET; // ÇëÇóÀàĞÍ,Ä¬ÈÏÎªGET
-	bool						isImmediate = false;	// ÊÇ·ñÊ¹ÓÃµ¥¶ÀµÄÏß³ÌÁ¢¼´Ö´ĞĞ£¬true-Ê¹ÓÃµ¥¶ÀµÄÏß³ÌÖ´ĞĞÇëÇó, 
-														//		false-Ìí¼Óµ½¶ÓÁĞÓÃÍ¬Ò»Ïß³ÌÖ´ĞĞ£¬Ä¬ÈÏÖµ£ºfalse
-	bool						isAuth = false;			// ÊÇ·ñĞèÒªÌí¼ÓToken½øHeader£¬Ä¬ÈÏÖµ£ºfalse
-	std::string                 url;					// ÒªÇëÇóµÄURLÍêÕûÂ·¾¶
+	HttpRequest::Type           requestType = HttpRequest::Type::GET; // è¯·æ±‚ç±»å‹,é»˜è®¤ä¸ºGET
+	bool						isImmediate = false;	// æ˜¯å¦ä½¿ç”¨å•ç‹¬çš„çº¿ç¨‹ç«‹å³æ‰§è¡Œï¼Œtrue-ä½¿ç”¨å•ç‹¬çš„çº¿ç¨‹æ‰§è¡Œè¯·æ±‚, 
+														//		false-æ·»åŠ åˆ°é˜Ÿåˆ—ç”¨åŒä¸€çº¿ç¨‹æ‰§è¡Œï¼Œé»˜è®¤å€¼ï¼šfalse
+	bool						isAuth = false;			// æ˜¯å¦éœ€è¦æ·»åŠ Tokenè¿›Headerï¼Œé»˜è®¤å€¼ï¼šfalse
+	std::string                 url;					// è¦è¯·æ±‚çš„URLå®Œæ•´è·¯å¾„
 	std::string                 tag;					// user defined tag, to identify different requests in response callback
 	std::vector<char>           requestData;			// used for POST/PUT/PATCH
 	std::vector<std::string>    headers;				// custom http headers
