@@ -46,6 +46,7 @@ void NetworkUtils::doRequest(HttpRequest *request, bool immediately) {
 void NetworkUtils::beforeRequest(HttpRequest *request) {
     std::vector<std::string> headers = request->getHeaders();
     headers.emplace_back("Authorization:Bearer 填充Token");
+//    request->set
     request->setHeaders(headers);
 }
 
