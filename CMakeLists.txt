@@ -48,23 +48,23 @@ endif()
 
 # add cross-platforms source files and header files
 list(APPEND GAME_SOURCE
-     Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
-        Classes/External/network/HttpClient.cpp
-        Classes/External/network/CCDownloader.cpp
-        Classes/External/network/CCDownloader-curl.cpp
-        Classes/base/NetworkUtils.cpp
-     )
+        Classes/AppDelegate.cpp
+        Classes/HelloWorldScene.cpp
+        Classes/base/network/HttpClient.cpp
+        Classes/base/network/CCDownloader.cpp
+        Classes/base/network/CCDownloader-curl.cpp
+        Classes/base/network/NetworkUtils.cpp
+        )
 list(APPEND GAME_HEADER
-     Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
-        Classes/External/network/HttpClient.h
-        Classes/External/network/HttpRequest.h
-        Classes/External/network/CCDownloader.h
-        Classes/External/network/CCDownloader-curl.h
-        Classes/External/network/CCIDownloaderImpl.h
-        Classes/base/NetworkUtils.h
-     )
+        Classes/AppDelegate.h
+        Classes/HelloWorldScene.h
+        Classes/base/network/HttpClient.h
+        Classes/base/network/HttpRequest.h
+        Classes/base/network/CCDownloader.h
+        Classes/base/network/CCDownloader-curl.h
+        Classes/base/network/CCIDownloaderImpl.h
+        Classes/base/network/NetworkUtils.h
+        )
 
 if(ANDROID)
     # change APP_NAME to the share library name for Android, it's value depend on AndroidManifest.xml
@@ -134,7 +134,7 @@ endif()
 target_link_libraries(${APP_NAME} cocos2d ext_curl)
 target_include_directories(${APP_NAME}
         PRIVATE Classes
-        PRIVATE Classes/external/network
+        PRIVATE Classes/base/network
         PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
 )
 

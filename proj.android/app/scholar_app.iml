@@ -40,9 +40,6 @@
     <content url="file://$MODULE_DIR$/../../Classes/base">
       <sourceFolder url="file://$MODULE_DIR$/../../Classes/base" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../Classes/external/network">
-      <sourceFolder url="file://$MODULE_DIR$/../../Classes/external/network" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$/../../Resources">
       <sourceFolder url="file://$MODULE_DIR$/../../Resources" type="java-resource" />
     </content>
@@ -394,6 +391,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="libcocos2dx" />
+    <orderEntry type="module" module-name="libcocos2dx" />
     <orderEntry type="module" module-name="libcocos2dx" />
     <orderEntry type="module" module-name="libcocos2dx" />
   </component>

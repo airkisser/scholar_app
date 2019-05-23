@@ -35,7 +35,7 @@ void NetworkUtils::doRequest(HttpRequest *request, bool immediately) {
         CCLOG("%s", "Request can not be null.");
         return;
     }
-    beforeRequest(request);
+    this->beforeRequest(request);
     if (immediately) {
         HttpClient::getInstance()->sendImmediate(request);
     } else {
@@ -45,7 +45,7 @@ void NetworkUtils::doRequest(HttpRequest *request, bool immediately) {
 
 void NetworkUtils::beforeRequest(HttpRequest *request) {
     std::vector<std::string> headers = request->getHeaders();
-    headers.emplace_back("Authorization:Bearer eyJ0eXAiOi");
+    headers.emplace_back("Authorization:Bearer 填充Token");
     request->setHeaders(headers);
 }
 
