@@ -6,50 +6,119 @@
 
 using namespace cqdn::network;
 
-static NetworkUtils *instance = nullptr;
+static NetworkUtils* instance = nullptr;
 
-NetworkUtils *NetworkUtils::getInstance() {
-    if (instance == nullptr) {
-        instance = new NetworkUtils();
-    }
-    return instance;
+NetworkUtils* NetworkUtils::getInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new NetworkUtils();
+	}
+	return instance;
 }
 
-void NetworkUtils::destroyInstance() {
-    CC_SAFE_DELETE(instance);
+void NetworkUtils::destroyInstance()
+{
+	CC_SAFE_DELETE(instance);
 }
 
-NetworkUtils::NetworkUtils() {
-    // 设置连接超时时间
-    HttpClient::getInstance()->setTimeoutForConnect(1);
-    // 设置读超时时间
-    HttpClient::getInstance()->setTimeoutForRead(3);
+NetworkUtils::NetworkUtils(): m_delegate(nullptr)
+{
+	// 设置连接超时时间
+	HttpClient::getInstance()->setTimeoutForConnect(1);
+	// 设置读超时时间
+	HttpClient::getInstance()->setTimeoutForRead(3);
 }
 
-NetworkUtils::~NetworkUtils() {
-    HttpClient::destroyInstance();
+NetworkUtils::~NetworkUtils()
+{
+	HttpClient::destroyInstance();
 }
 
-void NetworkUtils::doRequest(HttpRequest *request, bool immediately) {
-    if (!request) {
-        CCLOG("%s", "Request can not be null.");
-        return;
-    }
-    this->beforeRequest(request);
-    if (immediately) {
-        HttpClient::getInstance()->sendImmediate(request);
-    } else {
-        HttpClient::getInstance()->send(request);
-    }
+void NetworkUtils::doRequest(const RequestParams &params)
+{
+	HttpRequest *request = new HttpRequest();
+	request->setRequestType(params.requestType);
+	request->setUrl(params.url);
+	request->setTag(params.tag);
+	if(!params.requestData.empty())
+	{
+		std::string tmp(params.requestData.begin(), params.requestData.end());
+		request->setRequestData(tmp.data(), tmp.size());
+	}
+	this->beforeRequest(request, params.isAuth);
+	if (params.isImmediate)
+	{
+		log("%s", "HttpClient send request immediately.");
+		HttpClient::getInstance()->sendImmediate(request);
+	}
+	else
+	{
+		log("%s", "HttpClient send request.");
+		HttpClient::getInstance()->send(request);
+	}
+	request->release();
 }
 
-void NetworkUtils::beforeRequest(HttpRequest *request) {
-    std::vector<std::string> headers = request->getHeaders();
-    headers.emplace_back("Authorization:Bearer 填充Token");
-//    request->set
-    request->setHeaders(headers);
+void NetworkUtils::setDelegate(NetworkDelegate* delegate)
+{
+	m_delegate = delegate;
 }
 
-void NetworkUtils::afterRequest(HttpRequest *request) {
+void NetworkUtils::beforeRequest(HttpRequest* request, bool auth)
+{
+	std::vector<std::string> headers = request->getHeaders();
+	request->setResponseCallback(CC_CALLBACK_2(NetworkUtils::onRequestCompleted, this));
+	if(auth)
+	{
+		// @TODO 从配置中读取Token信息
+		headers.emplace_back("Authorization:Bearer 填充Token");
+	}
+	request->setHeaders(headers);
+}
 
+void onRequestCompleted(HttpClient* client, HttpResponse* response)
+{
+	if (!response) 
+	{
+		log("%s", "Error: Response is null!");
+	}
+
+	auto request = response->getHttpRequest();
+	std::string tag = request->getTag();
+	long statusCode = response->getResponseCode();
+	
+	if(response->isSucceed())
+	{// 状态码在[200,300)之间
+		log("Request succeed, HTTP Status Code: %ld, tag = %s", statusCode, tag.empty() ? "null" : tag);
+		std::vector<char>* responseHeader = response->getResponseHeader();
+		// @TODO 解析数据
+	}
+	else
+	{
+		log("Request succeed, HTTP Status Code: %ld, tag = %s, error: ", statusCode, tag.empty() ? "null" : tag, 
+			response->getErrorBuffer());
+		// 处理常用的错误码
+		switch (statusCode)
+		{
+		case 400:
+			break;
+		case 401:
+			break;
+		case 403:
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (!response->isSucceed())
+	{
+		log("response failed");
+		log("error buffer: %s", response->getErrorBuffer());
+		return;
+	}
+
+	// dump data
+	std::vector<char> *buffer = response->getResponseData();
 }
